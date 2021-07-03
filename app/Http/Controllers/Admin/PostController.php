@@ -39,6 +39,12 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+            'title' => 'required|max:10',
+            'content' => 'required|min:3'
+        ]);
+
         $data = $request->all();
         $data['slug'] = Str::slug($data['title'], '-');
 
@@ -54,7 +60,7 @@ class PostController extends Controller
             $slug_exist = Post::where('slug',$slug)->first();
             $counter ++;
         }
-        
+
         $new_post = new Post();
         $new_post->fill($data);
         $new_post->save();
