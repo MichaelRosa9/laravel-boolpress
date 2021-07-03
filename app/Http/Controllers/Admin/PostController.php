@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Post;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PostRequest; /* this line is required for the customized errors */
 use Illuminate\Support\Str; /* this line is required for the 'slug' string function  */
 use Illuminate\Http\Request;
 
@@ -37,18 +38,18 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
+        /* remember to add a "protected $fillable = [...]" where inside the array there has to be the proper queries needed. in case do a dd() to see what elements does data have*/
 
-        $request->validate([
+        // this has been mooved to app/Http/Requests/PostRequest.php
+        /* $request->validate([
             'title' => 'required|max:10',
             'content' => 'required|min:3'
-        ]);
+        ]); */
 
         $data = $request->all();
         $data['slug'] = Str::slug($data['title'], '-');
-
-        
 
         /* check if slug name already exists and if so, ad a number that increments everytime the name is already used  */
         $slug_exist = Post::where('slug', $data['slug'])->first();
@@ -104,12 +105,27 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
         /* remember to add a "protected $fillable = [...]" where inside the array there has to be the proper queries needed. in case do a dd() to see what elements does data have*/
         $data = $request->all();
+        
+        if($post->title !== $data['title']){
+            $slug = Str::slug($data['title'], '-');
+            $slug_exist = Post::where('slug', $data['slug'])->first();
+            $counter = 0;
+            while($slug_exist){
+                $title = $data['title'] . '-' . $counter;
+                $slug = Str::slug($title, '-');
+                $data['slug'] = $slug;
+                $slug_exist = Post::where('slug',$slug)->first();
+                $counter ++;
+            }
+        }else{
+            $data['slug'] = $post->slug;
+        }
+        
 
-        $data['slug'] = Str::slug($data['title'], '-');
         $post->update($data);
 
         return redirect()->route('admin.posts.show', $post); /* must use redirect before return in order to see the updated element */

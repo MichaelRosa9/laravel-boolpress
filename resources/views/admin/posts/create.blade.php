@@ -36,7 +36,7 @@
                 <label for="content" class="form-label">Content</label>
                 {{-- @error is a particular "if" that checks the condition of the '->validate([])' inside PostController store function  --}}
                 {{-- the method 'old()' keeps the textarea content and does not erase it when the page is refreshed --}}
-                <textarea name="content" id="content" cols="30" rows="10" class="form-control @error('title') is-invalid @enderror" rows="7">{{old('content')}}</textarea>
+                <textarea name="content" id="content" cols="30" rows="10" class="form-control @error('content') is-invalid @enderror" rows="7">{{old('content')}}</textarea>
                 @error('content')
                   <div class="text-danger">{{ $message }}</div>
                 @enderror
