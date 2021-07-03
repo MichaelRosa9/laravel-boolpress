@@ -40,7 +40,9 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        /* $new_post = new Post(); */
+        $data['slug'] = Str::slug($data['title'], '-');
+
+        
 
         /* check if slug name already exists and if so, ad a number that increments everytime the name is already used  */
         $slug_exist = Post::where('slug', $data['slug'])->first();
@@ -52,8 +54,8 @@ class PostController extends Controller
             $slug_exist = Post::where('slug',$slug)->first();
             $counter ++;
         }
-
-        $data['slug'] = Str::slug($data['title'], '-');
+        
+        $new_post = new Post();
         $new_post->fill($data);
         $new_post->save();
         return redirect()->route('admin.posts.show', $new_post);
