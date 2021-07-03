@@ -20,7 +20,7 @@
               </div>
 
               <button type="submit" class="btn btn-primary">Submit</button>
-              <button type="reset" class="btn btn-secondary">Reset</button>
+              <button type="reset" class="btn btn-secondary" type="reset">Reset</button>
         </form>
     </div>
 </div>

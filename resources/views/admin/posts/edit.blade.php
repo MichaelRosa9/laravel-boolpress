@@ -20,7 +20,7 @@
               </div>
 
               <button type="submit" class="btn btn-primary">Submit</button>{{-- the button ridercts to the 'update' route in the PostController --}}
-              <button type="reset" class="btn btn-secondary">Reset</button>
+              <button type="reset" class="btn btn-secondary" type="reset">Reset</button>
         </form>
     </div>
 </div>

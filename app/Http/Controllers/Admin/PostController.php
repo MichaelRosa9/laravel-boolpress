@@ -40,7 +40,18 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $new_post = new Post();
+        /* $new_post = new Post(); */
+
+        /* check if slug name already exists and if so, ad a number that increments everytime the name is already used  */
+        $slug_exist = Post::where('slug', $data['slug'])->first();
+        $counter = 0;
+        while($slug_exist){
+            $title = $data['title'] . '-' . $counter;
+            $slug = Str::slug($title, '-');
+            $data['slug'] = $slug;
+            $slug_exist = Post::where('slug',$slug)->first();
+            $counter ++;
+        }
 
         $data['slug'] = Str::slug($data['title'], '-');
         $new_post->fill($data);
