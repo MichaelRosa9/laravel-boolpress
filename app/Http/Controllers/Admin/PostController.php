@@ -95,7 +95,7 @@ class PostController extends Controller
         $post = Post::find($id);
         $categories = Category::all();
         if($post){
-            return view('admin.posts.edit', compact('post', 'categorie'));
+            return view('admin.posts.edit', compact('post', 'categories'));
         }
         abort(404);
     }
@@ -114,7 +114,7 @@ class PostController extends Controller
         
         if($post->title !== $data['title']){
             $slug = Str::slug($data['title'], '-');
-            $slug_exist = Post::where('slug', $data['slug'])->first();
+            $slug_exist = Post::where('slug', $slug)->first();
             $counter = 0;
             while($slug_exist){
                 $title = $data['title'] . '-' . $counter;

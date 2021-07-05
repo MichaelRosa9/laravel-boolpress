@@ -44,7 +44,7 @@
 
               <div class="mb-3">
                 <label class="label-control" for="category_id">Category</label>
-                <select class="@error('category_id') is-invalid @enderror" name="form-control" id="category_id">
+                <select class="form-control @error('category_id') is-invalid @enderror" name="category_id" id="category_id">
                   <option value="">- select category</option>
                   @foreach ($categories as $category)
                       <option {{-- must use == instead of === because one is a string and the other is a number --}}
