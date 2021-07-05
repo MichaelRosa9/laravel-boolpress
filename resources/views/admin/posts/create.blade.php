@@ -44,12 +44,21 @@
 
               <div class="mb-3">
                 <label class="label-control" for="category_id">Category</label>
-                <select name="form-control" id="category_id">
+                <select class="@error('category_id') is-invalid @enderror" name="form-control" id="category_id">
                   <option value="">- select category</option>
                   @foreach ($categories as $category)
-                      <option value="">{{ $category->name }}</option>
+                      <option {{-- must use == instead of === because one is a string and the other is a number --}}
+                      @if (old('category_id') == $category->id)
+                        selected    
+                      @endif 
+                      value="{{$category->id}}">{{ $category->name }}</option>
                   @endforeach
                 </select>
+                @error('category_id')
+                    <p class="text-danger">
+                      {{$message}}
+                    </p>
+                @enderror
               </div>
               <button type="submit" class="btn btn-primary">Submit</button>
               <button type="reset" class="btn btn-secondary" type="reset">Reset</button>

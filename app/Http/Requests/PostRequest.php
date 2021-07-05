@@ -25,7 +25,8 @@ class PostRequest extends FormRequest
     {
         return [
             'title' => 'required|max:10',
-            'content' => 'required|min:3'
+            'content' => 'required|min:3',
+            'category_id' => 'nullabel|exists:categories,id'
             
         ];
     }
@@ -37,6 +38,7 @@ class PostRequest extends FormRequest
             'title.max' => 'You can write up to :max characters',
             'title.min' => 'You can not write less than :min characters',
             'content.required' => 'The content must required',
+            'category_id.exists' => 'The chosen category doesn\'t exist'
         ];
     }
 }
