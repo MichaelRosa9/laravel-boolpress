@@ -64,10 +64,15 @@ class PostController extends Controller
             $slug_exist = Post::where('slug',$slug)->first();
             $counter ++;
         }
-
         $new_post = new Post();
         $new_post->fill($data);
         $new_post->save();
+
+        //if the key 'tags' exists inside $data and only if something ii checked
+        if(array_key_exists('tags', $data)){
+            //fill the pivot table'post_tag' with the key of the post and the key of the tags
+            $new_post->tags()->attach($data['tags']);
+        }
         return redirect()->route('admin.posts.show', $new_post);
     }
 

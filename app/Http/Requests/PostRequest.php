@@ -26,8 +26,8 @@ class PostRequest extends FormRequest
         return [
             'title' => 'required|max:20',
             'content' => 'required|min:3',
-            'category_id' => 'nullable|exists:categories,id'
-            
+            'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'nullable|exist:tags,id'
         ];
     }
     /* this fucntion customizes the error messages */
@@ -38,7 +38,8 @@ class PostRequest extends FormRequest
             'title.max' => 'You can write up to :max characters',
             'title.min' => 'You can not write less than :min characters',
             'content.required' => 'The content must required',
-            'category_id.exists' => 'The chosen category doesn\'t exist'
+            'category_id.exists' => 'The chosen category doesn\'t exist',
+            'tags' => 'The chosen tag doen\'t exist'
         ];
     }
 }

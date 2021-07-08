@@ -65,13 +65,21 @@
                 <h5>Tags</h5>
                 @foreach ($tags as $tag)
                     <span class="d-inline-block mr-3">
-                      <input type="checkbox" 
+                      <input type="checkbox"
+                      @if (in_array($tag->id, old('tags',[])))
+                          checked
+                      @endif 
                       value="{{ $tag->id }}"
                       name="tags[]" {{-- everytyme a checkbox is checked, this array gets filled with the id of the input --}}
                       id="tag{{ $loop->iteration}}">{{-- must write a string and then add loop->iteration as counter needed for checkboxes to give ID --}}
                       <label for="tag{{ $loop->iteration }}">{{ $tag->name }}</label>
                     </span>
                 @endforeach
+                @error('tags')
+                    <p class="text-danger">
+                      {{$message}}
+                    </p>
+                @enderror
               </div>
               <button type="submit" class="btn btn-primary">Submit</button>
               <button type="reset" class="btn btn-secondary" type="reset">Reset</button>
