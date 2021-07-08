@@ -48,7 +48,7 @@
                   <option value="">- select category</option>
                   @foreach ($categories as $category)
                       <option {{-- must use == instead of === because one is a string and the other is a number --}}
-                      @if (old('category_id', $post->category->id) == $category->id)
+                      @if (old('category_id', $post->category_id) == $category->id)
                         selected    
                       @endif 
                       value="{{$category->id}}">{{ $category->name }}</option>
@@ -61,6 +61,29 @@
                 @enderror
               </div>
               
+              <div class="mb-3">
+                <h5>Tags</h5>
+                @foreach ($tags as $tag)
+                    <span class="d-inline-block mr-3">
+                      <input type="checkbox"
+                      @if ($errors->any() && in_array($tag->id, old('tags',[])))
+                        checked
+                      @elseif (!$errors->any() && $post->tags->contains($tag->id))
+                        checked
+                      @endif 
+                      value="{{ $tag->id }}"
+                      name="tags[]" {{-- everytyme a checkbox is checked, this array gets filled with the id of the input --}}
+                      id="tag{{ $loop->iteration}}">{{-- must write a string and then add loop->iteration as counter needed for checkboxes to give ID --}}
+                      
+                      <label for="tag{{ $loop->iteration }}">{{ $tag->name }}</label>
+                    </span>
+                @endforeach
+                @error('tags')
+                    <p class="text-danger">
+                      {{$message}}
+                    </p>
+                @enderror
+              </div>
               <button type="submit" class="btn btn-primary">Submit</button>{{-- the button ridercts to the 'update' route in the PostController --}}
               <button type="reset" class="btn btn-secondary" type="reset">Reset</button>
         </form>

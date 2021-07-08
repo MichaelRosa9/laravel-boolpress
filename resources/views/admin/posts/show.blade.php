@@ -10,13 +10,14 @@
       No Category
     @endif
   </h3>
-  <p>{{ $post->content }}</p>
   <div>
     @foreach($post->tags as $tag)
      <span class="badge badge-primary">{{ $tag->name }}</span>
     @endforeach
   </div>
+
   <p>{{ $post->content }}</p>
+  
   <div>
     <a href="{{ route('admin.posts.edit', $post) }}">EDIT</a>
   </div>
