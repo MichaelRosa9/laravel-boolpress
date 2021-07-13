@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -15,7 +16,18 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        //$posts = Post::all();
+
+        $posts = DB::table('posts')
+        ->select(
+            'posts.id',
+            'posts.title',
+            'posts.content',
+            'posts.created_at',
+            'categories.name'
+        )
+            ->join('categories', 'posts.category_id', 'categories.id')
+            ->get();
        
         return response()->json($posts); 
     }
