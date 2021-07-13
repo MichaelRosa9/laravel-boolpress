@@ -26,4 +26,4 @@ Route::prefix('admin')
         Route::resource('/posts', 'PostController');
     });
 
-Route::get('/home', 'PageController@index')->name('home');
+Route::get('{/any?}', 'PageController@index')->where('any', '*');
