@@ -1,7 +1,9 @@
 <template>
-  <h1>
-    Vue!
-  </h1>
+  <div class="container">
+    <h1>
+      Vue!
+    </h1>
+  </div>
 </template>
 
 <script>
@@ -10,6 +12,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+
+  @import '../sass/frontoffice/global.scss';
 
 </style>
