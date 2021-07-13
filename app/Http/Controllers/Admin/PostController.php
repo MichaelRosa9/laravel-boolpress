@@ -138,6 +138,13 @@ class PostController extends Controller
 
         $post->update($data);
 
+        //similar condition used in the store function but instead of using method attach() i use method sync()
+        if(array_key_exists('tags', $data)){
+            //fill the pivot table'post_tag' with the key of the post and the key of the tags
+            $post->tags()->sync($data['tags']);
+        }else{
+            $post->tags()->detach();
+        }
         return redirect()->route('admin.posts.show', $post); /* must use redirect before return in order to see the updated element */
     }
 

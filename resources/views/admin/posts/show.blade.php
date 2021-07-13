@@ -10,6 +10,7 @@
       No Category
     @endif
   </h3>
+  
   <div>
     @foreach($post->tags as $tag)
      <span class="badge badge-primary">{{ $tag->name }}</span>
