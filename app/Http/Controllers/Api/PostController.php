@@ -23,8 +23,8 @@ class PostController extends Controller
             'posts.id',
             'posts.title',
             'posts.content',
-            'posts.created_at',
-            'categories.name'
+            'posts.created_at AS date',
+            'categories.name AS category'
         )
             ->join('categories', 'posts.category_id', 'categories.id')
             ->get();
