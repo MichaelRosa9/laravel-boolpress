@@ -8,6 +8,14 @@
 @import '~bootstrap/scss/bootstrap';
 
 body {
-  font-family: $font-family-sans-serif;
-  background-color: #ccc;
+  font-family: $font-family-sans-serif;  
+}
+
+.nav-pages {
+  button {
+    border: none;
+    &:hover {
+      opacity: .8;
+    }
+  }
 }

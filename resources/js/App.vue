@@ -14,6 +14,22 @@
       <div><a href="#">vai...</a></div>
     </article>
     
+    <div class="nav-pages">
+      <button 
+        v-if="pagination.current > 1"
+        @click="getPostsAPI(pagination.current - 1)"
+        class="badge badge-primary"
+        >
+          prev
+        </button>
+      <button 
+        v-if="pagination.current < pagination.last"
+        @click="getPostsAPI(pagination.current + 1)"
+        class="badge badge-primary"
+        >
+          next
+        </button>
+    </div>
     </main>
     
   </div>
@@ -31,14 +47,22 @@ export default {
     data(){
       return {
         posts: [],
+        pagination: {}
       }
     },
     methods:{
-      getPostsAPI(){
-        axios.get('http://127.0.0.1:8000/api/posts')
-        .then(res => {
-          // handle success
-          this.posts = res.data;
+      getPostsAPI(page = 1/* in case of no param for page, page = 1*/){
+        axios.get('http://127.0.0.1:8000/api/posts',{
+          params: {
+            page: page
+          }
+        })
+        .then(res => {          
+          this.posts = res.data.data;
+          this.pagination = {
+            current: res.data.current_page,
+            last: res.data.last_page
+          }
         })
         .catch(error => {
           // handle error

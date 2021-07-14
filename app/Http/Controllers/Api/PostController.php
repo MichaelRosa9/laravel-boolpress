@@ -27,7 +27,7 @@ class PostController extends Controller
             'categories.name AS category'
         )
             ->join('categories', 'posts.category_id', 'categories.id')
-            ->get();
+            ->paginate(3);
        
         return response()->json($posts); 
     }
