@@ -26,9 +26,11 @@ class PostController extends Controller
             'posts.created_at AS date',
             'categories.name AS category'
         )
-            ->join('categories', 'posts.category_id', 'categories.id')
-            ->paginate(3);
-       
+        ->join('categories', 'posts.category_id', 'categories.id')
+        ->paginate(3);
+        
+        /* $post = Post::with(['category','tags'])->paginate(); <------ make query with model */
+        
         return response()->json($posts); 
     }
 

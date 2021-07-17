@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'PageController@index');
+/* Route::get('/', 'PageController@index'); */
 
 Auth::routes();
 
@@ -26,4 +26,13 @@ Route::prefix('admin')
         Route::resource('/posts', 'PostController');
     });
 
-Route::get('{/any?}', 'PageController@index')->where('any', '*');
+
+
+/* Route::get('{any?}', 'PageController@index')->where('any', '.*'); */ /* looks for any routs present in vue that arent Auth or Admin */
+
+/* same formurla different synthax ar the line above  */
+Route::get('{any?}', function(){
+    
+    return view('guest.home');
+    
+})->where('any', '.*');

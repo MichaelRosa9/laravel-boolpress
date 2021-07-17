@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <Header />
+  <!-- <div>
+    
     <main class="container">
       <h1>I nostri post</h1>
 
@@ -32,7 +32,13 @@
     </div>
     </main>
     
-  </div>
+  </div> -->
+  <main class="container">
+    
+    <Header />
+    <router-view></router-view> <!-- this is the tag to inject the pages components, similar to the 'yield'method in laravel -->
+
+  </main>
 </template>
 
 <script>
@@ -82,7 +88,6 @@ export default {
          return `${dy}/${m}/${y}`;
          return d
       }
-    
     },
     created(){
       this.getPostsAPI()
