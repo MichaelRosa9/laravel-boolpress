@@ -22,6 +22,7 @@ class PostController extends Controller
         ->select(
             'posts.id',
             'posts.title',
+            'posts.slug',
             'posts.content',
             'posts.created_at AS date',
             'categories.name AS category'
@@ -61,9 +62,17 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $post = Post::where('slub', $slug)->with(['category', 'tags'])->first();
+        if($post){/* in case the query is successfull  */
+            $data = [
+                'success' => true,
+                'data' => $post
+            ];
+            return response()->json($post);
+        }
+        return response()->json(['succes' => false]); /* in case the query gives you nothing, ths line gives you s feedback saying that nothing is found */
     }
 
     /**

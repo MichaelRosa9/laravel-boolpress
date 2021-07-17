@@ -5,86 +5,79 @@
       <main class="container">
         <h1>I nostri post</h1>
 
-        <div v-for="post in posts" :key="'p' + post.id" class="card">
-          <div class="card-body">
-            <div class="d-flex justify-content-between">
-              <h5 class="card-title">{{ post.title }}</h5>
-              <span class="badge badge-success custom-badge">{{ post.category }}</span>
+        <Loader v-if="loading" />
 
-            </div>
-            <i>{{ formatDate(post.date) }}</i>
-            <p class="card-text">
-              {{ post.content }}
-            </p>
-            <a href="#" class="btn btn-primary">post.show</a>
-          </div>
-        </div>
-        <article class="mb-2"></article>
+        <div v-else>
+          <!-- post list -->
+          <Card 
+            v-for="post in posts" :key="'p' + post.id" class="card"
+            :title="post.title"
+            :category="post.category"
+            :date="formatDate(post.date)"
+            :slug="post.slug"
+            :content="post.content"
+          />
+        </div>        
 
-        <!-- <div class="nav-pages">
-          <button
-            v-if="pagination.current > 1"
-            @click="getPostsAPI(pagination.current - 1)"
-            class="badge badge-primary"
-          >
-            prev
-          </button>
-          <button
-            v-if="pagination.current < pagination.last"
-            @click="getPostsAPI(pagination.current + 1)"
-            class="badge badge-primary"
-          >
-            next
-          </button>
-        </div> -->
-      <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item"
-            :class="{ 'disabled': pagination.current === 1}"
-          >
-            <button
-              @click="getPostsAPI(pagination.current - 1)"
-              class="page-link"
+        <!-- pagination --> 
+        <nav v-if="!loading"
+          aria-label="Page navigation example"
+        >
+          <ul class="pagination">
+            <li class="page-item"
+              :class="{ 'disabled': pagination.current === 1}"
             >
-              &laquo;
-            </button>
-          </li>
+              <button
+                @click="getPostsAPI(pagination.current - 1)"
+                class="page-link"
+              >
+                &laquo;
+              </button>
+            </li>
 
-          <li class="page-item"
-            v-for="i in pagination.last" :key="'i' + i"
-            :class="{'active': pagination.current === i}"
-          >
-          <button class="page-link"
-            @click="getPostsAPI(i)"
-          >{{ i }}</button>
-          </li>
-
-          <li class="page-item"
-            :class="{ 'disabled': pagination.current === pagination.last}"
-          >
-            <button
-              @click="getPostsAPI(pagination.current + 1)"
-              class="page-link"
+            <li class="page-item"
+              v-for="i in pagination.last" :key="'i' + i"
+              :class="{'active': pagination.current === i}"
             >
-              &raquo;
-            </button>
-          </li>
-        </ul>
-      </nav>
+            <button class="page-link"
+              @click="getPostsAPI(i)"
+            >{{ i }}</button>
+            </li>
+
+            <li class="page-item"
+              :class="{ 'disabled': pagination.current === pagination.last}"
+            >
+              <button
+                @click="getPostsAPI(pagination.current + 1)"
+                class="page-link"
+              >
+                &raquo;
+              </button>
+            </li>
+          </ul>
+        </nav>
+        <!-- end pagination -->
       </main>
     </div>
   </div>
 </template>
 
 <script>
+import Loader from '../components/Loader.vue';
+import Card from '../components/Card.vue';
 import axios from "axios";
 
 export default {
   name: "Blog",
+  components: {
+      Loader,
+      Card
+  },
   data() {
     return {
       posts: [],
       pagination: {},
+      loading: true
     };
   },
   methods: {
@@ -101,6 +94,7 @@ export default {
             current: res.data.current_page,
             last: res.data.last_page,
           };
+          this.loading = false;
         })
         .catch((error) => {
           // handle error
