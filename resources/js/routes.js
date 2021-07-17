@@ -7,6 +7,7 @@ import Home from './pages/Home.vue';
 import About from './pages/About.vue';
 import Contact from './pages/Contact.vue';
 import Blog from './pages/Blog.vue';
+import PostDetail from './pages/PostDetail.vue';
 import Error404 from './pages/Error404.vue';
 
 const router = new VueRouter({
@@ -34,6 +35,11 @@ const router = new VueRouter({
       path: '/blog',
       name: 'blog',
       component: Blog
+    },
+    {
+      path: '/post/:slug', /* ':' is the synthax for when a variable is expected. In this case I need slug */
+      name: 'postDetail',
+      component: PostDetail
     },
     {/* the error route must be put always at the end of the array */
       path: '/*',

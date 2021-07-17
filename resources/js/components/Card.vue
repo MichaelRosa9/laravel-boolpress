@@ -10,7 +10,7 @@
             <p class="card-text">
               {{ truncateText }} <!-- it's a computed function so it doesn't need brackets to be called  -->
             </p>
-            <a href="#" class="btn btn-primary">post.show</a>
+            <router-link class="btn btn-primary" :to="{name: 'postDetail', params:{slug}}">Show Post</router-link> <!-- in 'params:{slug}' I'm abbreviating: 'params:{slug:slug}' -->
           </div>
         </div>
 </template>
