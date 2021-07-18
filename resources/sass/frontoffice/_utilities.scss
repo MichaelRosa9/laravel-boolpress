@@ -1,0 +1,14 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import '../variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.custom-badge {
+  display: inline-block;
+  height: 2rem;
+  line-height: 2rem;
+}

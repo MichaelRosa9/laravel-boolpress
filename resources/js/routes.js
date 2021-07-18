@@ -43,6 +43,7 @@ const router = new VueRouter({
     },
     {/* the error route must be put always at the end of the array */
       path: '/*',
+      name: 'error404',
       component: Error404
     },
   ]

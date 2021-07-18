@@ -10,7 +10,7 @@
             <p class="card-text">
               {{ truncateText }} <!-- it's a computed function so it doesn't need brackets to be called  -->
             </p>
-            <router-link class="btn btn-primary" :to="{name: 'postDetail', params:{slug}}">Show Post</router-link> <!-- in 'params:{slug}' I'm abbreviating: 'params:{slug:slug}' -->
+            <router-link class="btn btn-primary" :to="{name: 'postDetail', params:{ slug }}">Show Post</router-link> <!-- in 'params:{slug}' I'm abbreviating: 'params:{slug:slug}' -->
           </div>
         </div>
 </template>
@@ -36,6 +36,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+@import '../../sass/frontoffice/utilities.scss';
 
 </style>

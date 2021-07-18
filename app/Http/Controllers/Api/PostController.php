@@ -64,13 +64,13 @@ class PostController extends Controller
      */
     public function show($slug)
     {
-        $post = Post::where('slub', $slug)->with(['category', 'tags'])->first();
+        $post = Post::where('slug', $slug)->with(['category', 'tags'])->first();
         if($post){/* in case the query is successfull  */
             $data = [
                 'success' => true,
                 'data' => $post
             ];
-            return response()->json($post);
+            return response()->json($data);
         }
         return response()->json(['succes' => false]); /* in case the query gives you nothing, ths line gives you s feedback saying that nothing is found */
     }

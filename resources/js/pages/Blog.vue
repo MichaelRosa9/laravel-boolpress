@@ -13,7 +13,7 @@
             v-for="post in posts" :key="'p' + post.id" class="card"
             :title="post.title"
             :category="post.category"
-            :date="formatDate(post.date)"
+            :date="FormatDate.format(post.date)"
             :slug="post.slug"
             :content="post.content"
           />
@@ -65,6 +65,7 @@
 <script>
 import Loader from '../components/Loader.vue';
 import Card from '../components/Card.vue';
+import FormatDate from '../classes/FormatDate';
 import axios from "axios";
 
 export default {
@@ -77,13 +78,13 @@ export default {
     return {
       posts: [],
       pagination: {},
-      loading: true
+      loading: true,
+      FormatDate
     };
   },
   methods: {
     getPostsAPI(page = 1 /* in case of no param for page, page = 1*/) {
-      axios
-        .get("http://127.0.0.1:8000/api/posts", {
+      axios.get("http://127.0.0.1:8000/api/posts", {
           params: {
             page: page,
           },
@@ -101,17 +102,6 @@ export default {
           console.log(error);
         });
     },
-    formatDate(date) {
-      let d = new Date(date);
-      let dy = d.getDate();
-      let m = d.getMonth() + 1;
-      let y = d.getYear();
-
-      if (dy < 10) dy = "0" + dy;
-      if (m < 10) m = "0" + m;
-
-      return `${dy}/${m}/${y}`;
-    },
   },
   created() {
     this.getPostsAPI();
@@ -120,9 +110,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.custom-badge {
-  display: inline-block;
-  height: 2rem;
-  line-height: 2rem;
-}
+
 </style>
