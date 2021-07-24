@@ -13,6 +13,7 @@
             v-for="post in posts" :key="'p' + post.id" class="card"
             :title="post.title"
             :category="post.category"
+            :cover="post.cover"
             :date="FormatDate.format(post.date)"
             :slug="post.slug"
             :content="post.content"

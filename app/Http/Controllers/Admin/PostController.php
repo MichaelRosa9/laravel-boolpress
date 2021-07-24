@@ -9,6 +9,7 @@ use App\Http\Requests\PostRequest; /* this line is required for the customized e
 use App\Tag;
 use Illuminate\Support\Str; /* this line is required for the 'slug' string function  */
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -52,6 +53,7 @@ class PostController extends Controller
         ]); */
 
         $data = $request->all();
+        /* dd($data); */
         $data['slug'] = Str::slug($data['title'], '-');
 
         /* check if slug name already exists and if so, ad a number that increments everytime the name is already used  */
@@ -64,6 +66,19 @@ class PostController extends Controller
             $slug_exist = Post::where('slug',$slug)->first();
             $counter ++;
         }
+
+
+        /* IMPORTANT FOR UPLOADING FILES SUCH AS IMAGES*/
+        if(array_key_exists('cover', $data)){ // inside this condition, the image uploaded is saved in the DB and in the upload folder
+
+            $data['cover_original_name'] = $request->file('cover')->getClientOriginalName(); //this line gets the original name of the file uploaded
+
+            $image_path = Storage::put('uploads', $data['cover']); //save the the file in storage and the path
+
+            $data['cover'] = $image_path; //Insert the path in the filalble data
+        } 
+
+
         $new_post = new Post();
         $new_post->fill($data);
         $new_post->save();
@@ -135,6 +150,19 @@ class PostController extends Controller
             $data['slug'] = $post->slug;
         }
         
+        /* IMPORTANT FOR UPLOADING FILES SUCH AS IMAGES*/
+        if(array_key_exists('cover', $data)){ // inside this condition, the image uploaded is saved in the DB and in the upload folder
+
+            if($post->cover){ //condition that removes previous image
+                Storage::delete($post->cover);
+            }
+
+            $data['cover_original_name'] = $request->file('cover')->getClientOriginalName(); //this line gets the original name of the file uploaded
+
+            $image_path = Storage::put('uploads', $data['cover']); //save the the file in storage and the path
+
+            $data['cover'] = $image_path; //Insert the path in the filalble data
+        } 
 
         $post->update($data);
 
@@ -156,6 +184,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        if($post->cover){
+            Storage::delete($post->cover);
+        }
         $post->delete();
 
         return redirect()->route('admin.posts.index')->with('deleted', $post->title);

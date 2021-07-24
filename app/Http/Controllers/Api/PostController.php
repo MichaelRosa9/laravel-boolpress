@@ -23,15 +23,23 @@ class PostController extends Controller
             'posts.id',
             'posts.title',
             'posts.slug',
+            'posts.cover',
             'posts.content',
             'posts.created_at AS date',
             'categories.name AS category'
         )
         ->join('categories', 'posts.category_id', 'categories.id')
         ->paginate(3);
-        
         /* $post = Post::with(['category','tags'])->paginate(); <------ make query with model */
         
+        $posts->each(function($post){
+            if($post->cover){
+                $post->cover = url('storage/' . $post->cover);
+            }else{
+                $post->cover = url('img/default-image-620x600.jpg');
+            }
+        });
+
         return response()->json($posts); 
     }
 

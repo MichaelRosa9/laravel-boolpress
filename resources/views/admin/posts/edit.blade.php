@@ -18,7 +18,7 @@
    @endif
 
     <div class="row col-8 offset-2">
-        <form action="{{ route('admin.posts.update', $post) }}" method="POST">
+        <form action="{{ route('admin.posts.update', $post) }}" method="POST" enctype="multipart/form-data">{{-- nctype="multipart/form-data" is required if immages need to be upladed --}}
             @csrf
             @method('PATCH')
 
@@ -84,9 +84,44 @@
                     </p>
                 @enderror
               </div>
+
+              <div class="mb-3">
+                <div>
+                  <label for="cover" class="label-control">Image</label>
+                </div>
+                @if ($post->cover)
+                  <img width="150" src="{{ asset('storage/'. $post->cover) }}" alt="{{ $post->cover_original_name }}">
+                  
+                @endif
+                <input type="file" id="cover" name="cover" 
+                  onchange="previewFile()"
+                  class="form-control @error('cover') is-invalid @enderror"
+                >
+                @error('cover')
+                  <p class="text-danger">{{ $message }}</p>
+                @enderror
+              </div>
+
               <button type="submit" class="btn btn-primary">Submit</button>{{-- the button ridercts to the 'update' route in the PostController --}}
               <button type="reset" class="btn btn-secondary" type="reset">Reset</button>
         </form>
     </div>
 </div>
+ 
+<script>
+  /* function that changes the thumbnail of immage once selected */
+  function previewFile() {
+    var preview = document.querySelector('img');
+    var file    = document.querySelector('input[type=file]').files[0];
+    var reader  = new FileReader();
+    reader.onloadend = function () {
+      preview.src = reader.result;
+    }
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      preview.src = "";
+    }
+  }
+  </script>
 @endsection

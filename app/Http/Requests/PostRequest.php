@@ -27,7 +27,9 @@ class PostRequest extends FormRequest
             'title' => 'required|max:20',
             'content' => 'required|min:3',
             'category_id' => 'nullable|exists:categories,id',
-            'tags' => 'nullable|exists:tags,id'
+            'tags' => 'nullable|exists:tags,id',
+            'cover' => 'nullable|image|max:32000',/* 32000(KB) is 32MB the maximum Uploade file size shown in: Applications/MAMP/bin/php/php7.4.12/conf/php.ini */
+            
         ];
     }
     /* this fucntion customizes the error messages */
@@ -39,7 +41,9 @@ class PostRequest extends FormRequest
             'title.min' => 'You can not write less than :min characters',
             'content.required' => 'The content must required',
             'category_id.exists' => 'The chosen category doesn\'t exist',
-            'tags' => 'The chosen tag doen\'t exist'
+            'tags' => 'The chosen tag doen\'t exist',
+            'cover.image' => 'The file uploaded isn\'t an image',
+            'cover.max' => 'The uploaded image is too big. the file size accepted is :max kb',
         ];
     }
 }

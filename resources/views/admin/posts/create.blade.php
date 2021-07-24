@@ -17,7 +17,7 @@
       </div>
     @endif
     <div class="row col-8 offset-2">
-        <form action="{{ route('admin.posts.store') }}" method="POST">
+        <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">{{-- nctype="multipart/form-data" is required if immages need to be upladed --}}
             @csrf
             @method('POST')
 
@@ -30,7 +30,7 @@
                 @error('title')
                   <div class="text-danger">{{ $message }}</div>
                 @enderror
-              </div>              
+            </div>              
       
               <div class="mb-3">
                 <label for="content" class="form-label">Content</label>
@@ -38,7 +38,7 @@
                 {{-- the method 'old()' keeps the textarea content and does not erase it when the page is refreshed --}}
                 <textarea name="content" id="content" cols="30" rows="10" class="form-control @error('content') is-invalid @enderror" rows="7">{{old('content')}}</textarea>
                 @error('content')
-                  <div class="text-danger">{{ $message }}</div>
+                  <p class="text-danger">{{ $message }}</p>
                 @enderror
               </div>
 
@@ -81,6 +81,15 @@
                     </p>
                 @enderror
               </div>
+
+              <div class="mb-3">
+                <label for="cover" class="label-control">Image</label>                
+                <input type="file" id="cover" name="cover" class="form-control @error('cover') is-invalid @enderror">
+                @error('cover')
+                  <p class="text-danger">{{ $message }}</p>
+                @enderror
+              </div>
+
               <button type="submit" class="btn btn-primary">Submit</button>
               <button type="reset" class="btn btn-secondary" type="reset">Reset</button>
         </form>

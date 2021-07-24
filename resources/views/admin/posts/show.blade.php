@@ -3,6 +3,13 @@
 @section('content')
 <div class="container">
   <h1>{{ $post->title }}</h1>
+
+  <div>
+    @if ($post->cover)
+    <img src="{{ asset('storage/'. $post->cover) }}" alt="{{ $post->cover_original_name }}">
+    <h5>{{ $post->cover_original_name }}</h5>      
+    @endif
+  </div>
   <h3>
     @if ($post->category)
       Category: {{ $post->category->name }}

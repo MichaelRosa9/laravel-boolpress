@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div class="card flex-row mb-3">
+          <div class="post-cover">
+            <img :src="cover" alt="title">
+          </div>
           <div class="card-body">
             <div class="d-flex justify-content-between">
               <h5 class="card-title">{{ title }}</h5>
@@ -12,13 +15,13 @@
             </p>
             <router-link class="btn btn-primary" :to="{name: 'postDetail', params:{ slug }}">Show Post</router-link> <!-- in 'params:{slug}' I'm abbreviating: 'params:{slug:slug}' -->
           </div>
-        </div>
+  </div>
 </template>
 
 <script>
 export default {
   name: 'Card',
-  props: ['title', 'category', 'date', 'content', 'slug'],
+  props: ['title', 'category', 'date', 'content', 'slug', 'cover'],
   data(){
     return{
       maxLengthText: 150
@@ -39,4 +42,10 @@ export default {
 <style lang="scss" scoped>
 @import '../../sass/frontoffice/utilities.scss';
 
+.post-cover {
+  width: 300px;
+  img{
+    width:100%;
+  }
+}
 </style>

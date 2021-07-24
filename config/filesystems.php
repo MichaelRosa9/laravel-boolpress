@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'local'),
+    'default' => env('FILESYSTEM_DRIVER', 'public'),/* il 'public' must run terminal commande php artisan storage:link in order to create a link for the storage folder wich will contain for example images. check that in public folder there is an additiobnal storage folder containing .gitignore */
 
     /*
     |--------------------------------------------------------------------------
