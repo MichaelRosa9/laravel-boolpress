@@ -29,6 +29,7 @@ class PostController extends Controller
             'categories.name AS category'
         )
         ->join('categories', 'posts.category_id', 'categories.id')
+        ->orderBy('posts.id', 'desc')
         ->paginate(3);
         /* $post = Post::with(['category','tags'])->paginate(); <------ make query with model */
         
@@ -74,6 +75,11 @@ class PostController extends Controller
     {
         $post = Post::where('slug', $slug)->with(['category', 'tags'])->first();
         if($post){/* in case the query is successfull  */
+            if($post->cover){
+                $post->cover = url('storage/' . $post->cover);
+            }else{
+                $post->cover = url('img/default-image-620x600.jpg');
+            }
             $data = [
                 'success' => true,
                 'data' => $post

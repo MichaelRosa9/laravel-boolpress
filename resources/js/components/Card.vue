@@ -1,7 +1,7 @@
 <template>
   <div class="card flex-row mb-3">
           <div class="post-cover">
-            <img :src="cover" alt="title">
+            <img :src="cover" :alt="title">
           </div>
           <div class="card-body">
             <div class="d-flex justify-content-between">
@@ -43,9 +43,9 @@ export default {
 @import '../../sass/frontoffice/utilities.scss';
 
 .post-cover {
-  width: 300px;
+  
   img{
-    width:100%;
+    width: 300px;
   }
 }
 </style>
